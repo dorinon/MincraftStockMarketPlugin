@@ -12,6 +12,7 @@ import java.sql.Statement;
 public final class Database {
 
     private final Connection connection;
+    private Statement stmt;
 
     public Database(Plugin plugin) throws SQLException {
 
@@ -21,6 +22,8 @@ public final class Database {
         File databaseFile = plugin.getDataFolder().toPath().resolve("database.db").toFile();
 
         connection = DriverManager.getConnection("jdbc:sqlite:%s".formatted(databaseFile.getAbsolutePath()));
+
+        if (connection.){}
     }
 
     public void getItemPrice() {
