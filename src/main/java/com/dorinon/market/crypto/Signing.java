@@ -45,8 +45,8 @@ public final class Signing {
             privateKey = pair.getPrivate();
             publicKey = pair.getPublic();
 
-            fileConfig.set("private", Base64.getEncoder().encodeToString(privateKey.getEncoded()));
-            fileConfig.set("public", Base64.getEncoder().encodeToString(publicKey.getEncoded()));
+            fileConfig.set("private", Base64.getEncoder().withoutPadding().encodeToString(privateKey.getEncoded()));
+            fileConfig.set("public", Base64.getEncoder().withoutPadding().encodeToString(publicKey.getEncoded()));
 
             fileConfig.save(file);
         }
