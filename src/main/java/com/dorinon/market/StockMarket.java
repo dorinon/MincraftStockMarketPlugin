@@ -2,22 +2,38 @@ package com.dorinon.market;
 
 import com.dorinon.market.commands.OpenStockMarket;
 import com.dorinon.market.listeners.ProtectInventories;
+import com.dorinon.market.network.Signing;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
 
 public final class StockMarket extends JavaPlugin {
+    private Database database;
+
     @Override
     public void onEnable() {
         try {
+            database = new Database(this);
 
-            Database database = new Database(this);
+            new Signing(this);
 
             this.getCommand("stockmarket").setExecutor(new OpenStockMarket());
             this.getServer().getPluginManager().registerEvents(new ProtectInventories(), this);
 
-        } catch (SQLException exception) {
+        } catch (SQLException | IOException | NoSuchAlgorithmException | InvalidKeySpecException exception) {
             exception.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onDisable() {
+        try {
+            database.disconnect();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

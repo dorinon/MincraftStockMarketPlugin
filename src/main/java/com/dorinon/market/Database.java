@@ -36,6 +36,11 @@ public final class Database {
         connection.createStatement().execute("PRAGMA user_version = %d".formatted(SCHEME_UPGRADE_HANDLERS.size()));
     }
 
+    public void disconnect() throws SQLException {
+        if (connection == null) return;
+        connection.close();
+    }
+
     @FunctionalInterface
     private interface UpgradeHandler {
         void accept(Connection connection) throws SQLException;
