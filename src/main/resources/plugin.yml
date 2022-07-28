@@ -1,0 +1,7 @@
+name: StockMarket
+version: '${project.version}'
+main: dorinon.market.StockMarket
+api-version: 1.19
+commands:
+  stockmarket:
+    description: opens the stock market
