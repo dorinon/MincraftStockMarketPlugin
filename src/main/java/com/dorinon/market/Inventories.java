@@ -1,4 +1,4 @@
-package dorinon.market;
+package com.dorinon.market;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

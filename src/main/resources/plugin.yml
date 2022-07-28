@@ -1,6 +1,6 @@
 name: StockMarket
 version: '${project.version}'
-main: dorinon.market.StockMarket
+main: com.dorinon.market.StockMarket
 api-version: 1.19
 commands:
   stockmarket:

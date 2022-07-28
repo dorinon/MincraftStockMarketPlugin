@@ -1,13 +1,10 @@
-package dorinon.market.commands;
+package com.dorinon.market.commands;
 
-import dorinon.market.Inventories;
-import dorinon.market.SQLLite;
-import org.bukkit.Bukkit;
+import com.dorinon.market.Inventories;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 
 public class OpenStockMarketCmd implements CommandExecutor {
 

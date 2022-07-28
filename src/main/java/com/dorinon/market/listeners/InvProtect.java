@@ -1,6 +1,5 @@
-package dorinon.market.listeners;
+package com.dorinon.market.listeners;
 
-import dorinon.market.Inventories;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
