@@ -13,8 +13,10 @@ public final class StockMarket extends JavaPlugin {
         try {
             Database database = new Database(this);
 
-            this.getCommand("stockmarket").setExecutor(new OpenStockMarketCmd());
+            this.getCommand("stockmarket").setExecutor(new OpenStockMarketCmd(this));
+
             getServer().getPluginManager().registerEvents(new InvProtect(), this);
+
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
