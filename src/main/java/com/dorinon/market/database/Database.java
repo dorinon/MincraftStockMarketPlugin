@@ -1,4 +1,4 @@
-package com.dorinon.market;
+package com.dorinon.market.database;
 
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
@@ -27,10 +27,7 @@ public final class Database {
     public Database(@NotNull Plugin plugin) throws SQLException {
         plugin.getDataFolder().mkdir();
         connection = DriverManager.getConnection("jdbc:sqlite:%s".formatted(plugin.getDataFolder().toPath().resolve(DATABASE_FILE_NAME)));
-        handleSchema(connection);
-    }
 
-    private void handleSchema(@NotNull Connection connection) throws SQLException {
         int currentSchema = connection.createStatement().executeQuery("PRAGMA user_version").getInt(1);
         for (int i = currentSchema; i < SCHEME_UPGRADE_HANDLERS.size(); i++) SCHEME_UPGRADE_HANDLERS.get(i).accept(connection);
         connection.createStatement().execute("PRAGMA user_version = %d".formatted(SCHEME_UPGRADE_HANDLERS.size()));

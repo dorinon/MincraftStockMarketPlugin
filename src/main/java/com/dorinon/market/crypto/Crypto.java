@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
@@ -14,13 +15,13 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 import java.util.Objects;
 
-public final class Signing {
+public final class Crypto {
     private static final int KEY_SIZE = 2048;
 
     private final PrivateKey privateKey;
     private final PublicKey publicKey;
 
-    public Signing(@NotNull Plugin plugin) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
+    public Crypto(@NotNull Plugin plugin) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
         File file = new File(plugin.getDataFolder(), "keypair.yml");
         if (!file.exists()) file.createNewFile();
         FileConfiguration fileConfig = YamlConfiguration.loadConfiguration(file);
@@ -50,5 +51,16 @@ public final class Signing {
 
             fileConfig.save(file);
         }
+    }
+
+    public @NotNull String encodeAndSign(@NotNull String payload) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
+        String encoded = Base64.getEncoder().withoutPadding().encodeToString(payload.getBytes(StandardCharsets.UTF_8));
+
+        Signature signer = Signature.getInstance("SHA256withRSA");
+        signer.initSign(privateKey);
+        signer.update(encoded.getBytes(StandardCharsets.UTF_8));
+        String signature = Base64.getEncoder().withoutPadding().encodeToString(signer.sign());
+
+        return "%s:%s".formatted(encoded, signature);
     }
 }

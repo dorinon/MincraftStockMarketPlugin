@@ -1,8 +1,9 @@
 package com.dorinon.market;
 
 import com.dorinon.market.commands.OpenStockMarket;
+import com.dorinon.market.database.Database;
 import com.dorinon.market.listeners.ProtectInventories;
-import com.dorinon.market.crypto.Signing;
+import com.dorinon.market.crypto.Crypto;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
@@ -18,7 +19,7 @@ public final class StockMarket extends JavaPlugin {
         try {
             database = new Database(this);
 
-            new Signing(this);
+            Crypto crypto = new Crypto(this);
 
             this.getCommand("stockmarket").setExecutor(new OpenStockMarket());
             this.getServer().getPluginManager().registerEvents(new ProtectInventories(), this);
