@@ -1,4 +1,4 @@
-package com.dorinon.market.network;
+package com.dorinon.market.crypto;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;

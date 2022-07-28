@@ -2,7 +2,7 @@ package com.dorinon.market;
 
 import com.dorinon.market.commands.OpenStockMarket;
 import com.dorinon.market.listeners.ProtectInventories;
-import com.dorinon.market.network.Signing;
+import com.dorinon.market.crypto.Signing;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
