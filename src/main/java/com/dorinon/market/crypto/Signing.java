@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 import java.util.Objects;
@@ -27,7 +28,7 @@ public final class Signing {
         if (fileConfig.contains("private") && fileConfig.contains("public")) {
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
 
-            privateKey = keyFactory.generatePrivate(new X509EncodedKeySpec(
+            privateKey = keyFactory.generatePrivate(new PKCS8EncodedKeySpec(
                     Base64.getDecoder().decode(Objects.requireNonNull(fileConfig.getString("private")))
             ));
 
