@@ -1,32 +1,28 @@
 package com.dorinon.market;
 
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public final class Database {
+    private final static String DATABASE_FILE_NAME = "database.db";
+    private final static int DATABASE_SCHEMA_VERSION = 1;
 
     private final Connection connection;
-    private Statement stmt;
 
-    public Database(Plugin plugin) throws SQLException {
+    public Database(@NotNull Plugin plugin) throws SQLException {
+        plugin.getDataFolder().mkdir();
 
-        File dataFolder = new File(plugin.getDataFolder().getAbsolutePath());
-        dataFolder.mkdir();
+        connection = DriverManager.getConnection(
+                "jdbc:sqlite:%s".formatted(plugin.getDataFolder().toPath().resolve(DATABASE_FILE_NAME))
+        );
 
-        File databaseFile = plugin.getDataFolder().toPath().resolve("database.db").toFile();
-
-        connection = DriverManager.getConnection("jdbc:sqlite:%s".formatted(databaseFile.getAbsolutePath()));
-
-        if (connection.){}
+        handleSchema();
     }
 
-    public void getItemPrice() {
-
+    private void handleSchema() throws SQLException {
+        ResultSet rs = connection.createStatement().executeQuery("PRAGMA USER_VERSION");
+        System.out.println(rs);
     }
 }
