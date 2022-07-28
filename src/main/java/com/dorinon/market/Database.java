@@ -1,5 +1,6 @@
 package com.dorinon.market;
 
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
@@ -13,12 +14,13 @@ public final class Database {
     private final Connection connection;
 
     public Database(Plugin plugin) throws SQLException {
+
+        File dataFolder = new File(plugin.getDataFolder().getAbsolutePath());
+        dataFolder.mkdir();
+
         File databaseFile = plugin.getDataFolder().toPath().resolve("database.db").toFile();
 
         connection = DriverManager.getConnection("jdbc:sqlite:%s".formatted(databaseFile.getAbsolutePath()));
-
-        System.out.println(connection);
-        System.out.println(databaseFile);
     }
 
     public void getItemPrice() {
