@@ -19,9 +19,10 @@ public final class OpenStockMarket implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) return false;
 
-            StockMarketInv stockMarketInv = new StockMarketInv((Player) sender, database);
+        StockMarketInv stockMarketInv = new StockMarketInv((Player) sender, database);
 
-            player.openInventory(stockMarketInv.getDefaultStockMarketInv());
+        player.openInventory(stockMarketInv.getDefaultStockMarketInv());
+
         return true;
     }
 }

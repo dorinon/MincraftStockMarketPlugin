@@ -1,5 +1,7 @@
 package com.dorinon.market.database;
 
+import com.dorinon.market.OfferType;
+import com.google.gson.Gson;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,7 +23,7 @@ public final class Database {
                         offer_type  INT  NOT NULL,
                         cost        REAL NOT NULL
                     )
-            """)
+                    """)
     );
 
     private final Connection connection;
@@ -40,18 +42,37 @@ public final class Database {
         connection.close();
     }
 
+    private final RepeatableStatement saveOfferStatement = new RepeatableStatement("""
+                INSERT INTO offers (player_uuid, item_id, amount, offer_type, cost)
+                VALUES (?, ?, ?, ?, ?)
+                """);
+
+    public void saveOffer(@NotNull UUID uuid, ArrayList<String> itemIdentifiers, int amount, OfferType offerType, double cost) throws SQLException {
+        PreparedStatement statement = saveOfferStatement.get(connection);
+        statement.setString(1, uuid.toString());
+        statement.setString(2, new Gson().toJsonTree(itemIdentifiers).toString());
+        statement.setInt(3, amount);
+        statement.setInt(4, offerType.toInt());
+        statement.setDouble(5, cost);
+        statement.execute();
+    }
+
     @FunctionalInterface
     private interface UpgradeHandler {
         void accept(Connection connection) throws SQLException;
     }
 
-    public void saveOffer(UUID uuid, ArrayList<String> itemIdentifiers, int amount, int offerType, double cost) throws SQLException {
+    private static final class RepeatableStatement {
+        private final String statementString;
+        private PreparedStatement preparedStatement;
 
-        connection.createStatement().execute("""
-                INSERT INTO offers
-                (
-                    
-                )
-                """);
+        public RepeatableStatement(String statement) {
+            statementString = statement;
+        }
+
+        private @NotNull PreparedStatement get(@NotNull Connection connection) throws SQLException {
+            if (preparedStatement == null) preparedStatement = connection.prepareStatement(statementString);
+            return preparedStatement;
+        }
     }
 }

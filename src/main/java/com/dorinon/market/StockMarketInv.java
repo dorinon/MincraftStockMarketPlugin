@@ -13,7 +13,6 @@ import org.jetbrains.annotations.NotNull;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public final class StockMarketInv {
 
@@ -28,7 +27,7 @@ public final class StockMarketInv {
     private int pageNum = 1;
     private ItemStack changePage = new ItemStack(Material.PAPER);
     private ItemStack toggleView = new ItemStack(Material.NETHER_STAR);
-    private TradingModes states = TradingModes.Sell;
+    private OfferType states = OfferType.Sell;
 
 
     public @NotNull Inventory getDefaultStockMarketInv() {
@@ -91,7 +90,7 @@ public final class StockMarketInv {
         return stockMarketInventory;
     }
 
-    public void saveItem(TradingModes mode, ItemStack itemStack, int amount, Player player, double cost){
+    public void saveItem(OfferType mode, ItemStack itemStack, int amount, Player player, double cost){
 
         ArrayList<String> itemVerify = new ArrayList<>();
 
@@ -104,7 +103,7 @@ public final class StockMarketInv {
         itemVerify.add(itemStack.getItemMeta().getLore().toString());
 
         try {
-            database.saveOffer(player.getUniqueId(), itemVerify, amount, mode.ordinal(), cost);
+            database.saveOffer(player.getUniqueId(), itemVerify, amount, mode, cost);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -117,7 +116,4 @@ public final class StockMarketInv {
 
     //public void toggleTradingMode(){}
 
-    enum TradingModes{
-        Sell, Buy, Futures, Options
-    }
 }
