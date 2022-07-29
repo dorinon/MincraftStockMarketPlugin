@@ -21,7 +21,7 @@ public final class StockMarket extends JavaPlugin {
 
             Crypto crypto = new Crypto(this);
 
-            this.getCommand("stockmarket").setExecutor(new OpenStockMarket());
+            this.getCommand("stockmarket").setExecutor(new OpenStockMarket(database));
             this.getServer().getPluginManager().registerEvents(new ProtectInventories(), this);
 
         } catch (SQLException | IOException | NoSuchAlgorithmException | InvalidKeySpecException exception) {

@@ -4,7 +4,9 @@ import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public final class Database {
     private final static String DATABASE_FILE_NAME = "database.db";
@@ -41,5 +43,15 @@ public final class Database {
     @FunctionalInterface
     private interface UpgradeHandler {
         void accept(Connection connection) throws SQLException;
+    }
+
+    public void saveOffer(UUID uuid, ArrayList<String> itemIdentifiers, int amount, int offerType, double cost) throws SQLException {
+
+        connection.createStatement().execute("""
+                INSERT INTO offers
+                (
+                    
+                )
+                """);
     }
 }
