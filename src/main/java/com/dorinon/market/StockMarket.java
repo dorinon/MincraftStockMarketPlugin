@@ -2,8 +2,8 @@ package com.dorinon.market;
 
 import com.dorinon.market.commands.OpenStockMarket;
 import com.dorinon.market.database.Database;
-import com.dorinon.market.listeners.ProtectInventories;
 import com.dorinon.market.crypto.Crypto;
+import com.dorinon.market.lib.guimenu.GuiMenuListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
@@ -20,9 +20,8 @@ public final class StockMarket extends JavaPlugin {
             database = new Database(this);
 
             Crypto crypto = new Crypto(this);
-
+            getServer().getPluginManager().registerEvents(new GuiMenuListener(), this);
             this.getCommand("stockmarket").setExecutor(new OpenStockMarket(database));
-            this.getServer().getPluginManager().registerEvents(new ProtectInventories(), this);
 
         } catch (SQLException | IOException | NoSuchAlgorithmException | InvalidKeySpecException exception) {
             exception.printStackTrace();
