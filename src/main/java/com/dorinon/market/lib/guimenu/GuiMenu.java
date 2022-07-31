@@ -36,6 +36,20 @@ public abstract class GuiMenu implements InventoryHolder {
         this.player = player;
     }
 
+    public void setTitle(String title){
+
+        Inventory inventory1 = Bukkit.createInventory(null, inventory.getSize(), title);
+        inventory1.setStorageContents(inventory.getStorageContents());
+        inventory = inventory1;
+
+
+        if (player.getOpenInventory().getTopInventory().equals(inventory)){
+
+            player.closeInventory();
+            player.openInventory(inventory);
+        }
+    }
+
     public void close() {
         if (this.player != null) player.closeInventory();
     }
@@ -51,6 +65,14 @@ public abstract class GuiMenu implements InventoryHolder {
     public void setItem(int slot, GuiMenuItem item) {
         items[slot] = item;
         inventory.setItem(slot, item.getItem());
+    }
+
+    public void refreshItemStack(GuiMenuItem item) {
+        for (int i = 0; i < items.length; i++) {
+            if (items[i] == item) {
+                inventory.setItem(i, item.getItem());
+            }
+        }
     }
 
     protected void fillBackground(ItemStack item) {
